@@ -1,4 +1,5 @@
 const { NotImplementedError } = require('../extensions/index.js');
+const {assert} = require("chai");
 
 /**
  * Given a number, replace this number with
@@ -13,21 +14,18 @@ const { NotImplementedError } = require('../extensions/index.js');
  *
  */
 function getSumOfDigits(n) {
-let number = n.toString();
-let total = 0;
-number.split('');
-
-if (number.length > 1) {
-  for (let i = 0; i < number.length; i++) {
-    total += Number(number[i]);
+  const getArrNumber = (num) => {
+    return num.toString().split('').map((dig) => Number(dig));
   }
-}
-if (number.length === 1) {
-  total = Number(number);
-}
-
-  return Number(total);
-
+  const reducer = (arr) => {
+    return arr.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+  }
+  let arrNumbers = getArrNumber(n);
+  let number = reducer(arrNumbers);
+  while (number.toString().length > 1) {
+    number = reducer(getArrNumber(number));
+  }
+  return number;
 }
 
 module.exports = {
